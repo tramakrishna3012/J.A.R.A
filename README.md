@@ -68,4 +68,4 @@ The `Dockerfile` is optimized for slim builds.
 - **Human-in-the-Loop**: All AI actions require user approval.
 
 ---
-Built with ❤️ by Antigravity.
+Built with ❤️ by T Rama Krishna.
