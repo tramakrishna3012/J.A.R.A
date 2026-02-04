@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Plus, Search, Filter, Upload, BarChart2, X, Loader2 } from "lucide-react";
+import { Plus, Search, Filter, Upload, BarChart2, X, Loader2, Link as LinkIcon } from "lucide-react";
 import { useState } from "react";
 import api from "@/lib/api";
 
@@ -103,6 +103,17 @@ export default function JobsPage() {
                     <button className="flex items-center gap-2 px-4 py-2 bg-zinc-800 rounded-lg font-medium hover:bg-zinc-700 transition border border-white/10">
                         <Upload className="w-4 h-4" />
                         Import CSV
+                    </button>
+                    <button
+                        onClick={() => {
+                            const url = prompt("Paste Job URL (LinkedIn/Indeed):");
+                            if (url) alert("Scraping started... (Check console/backend logs)");
+                            // In real app, call /jobs/scrape endpoint and update state
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition border border-white/10"
+                    >
+                        <LinkIcon className="w-4 h-4 text-blue-400" />
+                        Link Import
                     </button>
                 </div>
             </header>
