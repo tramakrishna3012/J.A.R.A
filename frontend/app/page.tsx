@@ -1,7 +1,26 @@
 import Link from "next/link";
 import { ArrowRight, Bot, FileText, Send, Sparkles, Shield, Zap } from "lucide-react";
 
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+
 export default function Home() {
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col bg-black text-white selection:bg-purple-500/30 overflow-hidden relative">
 
@@ -18,12 +37,20 @@ export default function Home() {
           J.A.R.A
         </div>
         <div className="flex gap-4 items-center">
-          <Link href="/login" className="px-5 py-2.5 rounded-full text-sm font-medium text-gray-300 hover:text-white transition">
-            Login
-          </Link>
-          <Link href="/signup" className="px-5 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-gray-200 transition shadow-lg shadow-white/10">
-            Sign Up Free
-          </Link>
+          {session ? (
+            <Link href="/dashboard" className="px-5 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-gray-200 transition shadow-lg shadow-white/10">
+              Go to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className="px-5 py-2.5 rounded-full text-sm font-medium text-gray-300 hover:text-white transition">
+                Login
+              </Link>
+              <Link href="/signup" className="px-5 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-gray-200 transition shadow-lg shadow-white/10">
+                Sign Up Free
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
