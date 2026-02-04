@@ -97,7 +97,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full border-t border-white/10 py-12 text-center text-gray-500 text-sm bg-zinc-950">
-        <p className="mb-2">Built with ❤️ by Antigravity.</p>
+        <p className="mb-2">Built with ❤️ by T Rama Krishna.</p>
         <p className="opacity-50">Running on 100% Free Tier Infrastructure.</p>
       </footer>
     </main>
