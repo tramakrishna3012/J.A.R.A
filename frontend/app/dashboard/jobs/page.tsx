@@ -2,8 +2,9 @@
 
 "use client";
 
-import { Plus, Search, Filter, Upload, BarChart2, X } from "lucide-react";
+import { Plus, Search, Filter, Upload, BarChart2, X, Loader2 } from "lucide-react";
 import { useState } from "react";
+import api from "@/lib/api";
 
 const jobs = [
     { company: "Google", role: "Frontend Engineer", status: "Applied", date: "2 mins ago" },
@@ -20,14 +21,27 @@ const statusColors: any = {
 export default function JobsPage() {
     const [showAnalysis, setShowAnalysis] = useState(false);
     const [analysisData, setAnalysisData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+    const [selectedJob, setSelectedJob] = useState<any>(null);
 
-    const handleAnalyze = () => {
-        // Simulated API call result
-        setAnalysisData({
-            match_score: 85,
-            missing_keywords: ["Kubernetes", "GraphQL", "AWS"]
-        });
-        setShowAnalysis(true);
+    const handleAnalyze = async (job: any) => {
+        setLoading(true);
+        setSelectedJob(job);
+        try {
+            // In a real scenario, job.description would be passed or fetched. 
+            // For demo, we send a hardcoded description if the job object doesn't have one.
+            const res = await api.post("/jobs/analyze", {
+                job_description: job.description || "Looking for a Software Engineer with React and Python skills.",
+                resume_text: null // Backend will use master resume
+            });
+            setAnalysisData(res.data);
+            setShowAnalysis(true);
+        } catch (err) {
+            console.error("Analysis failed", err);
+            alert("Failed to analyze job. Ensure you have a master resume uploaded.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -35,11 +49,11 @@ export default function JobsPage() {
             {/* Analysis Modal */}
             {showAnalysis && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                    <div className="bg-zinc-900 border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                    <div className="bg-zinc-900 border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-200">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-xl font-bold flex items-center gap-2">
                                 <BarChart2 className="w-5 h-5 text-purple-500" />
-                                ATS Analysis
+                                ATS Analysis for {selectedJob?.company}
                             </h3>
                             <button onClick={() => setShowAnalysis(false)} className="text-gray-400 hover:text-white">
                                 <X className="w-5 h-5" />
@@ -133,8 +147,12 @@ export default function JobsPage() {
                                 </td>
                                 <td className="p-4 text-gray-400">{job.date}</td>
                                 <td className="p-4">
-                                    <button onClick={handleAnalyze} className="text-purple-400 hover:text-purple-300 flex items-center gap-1 text-xs font-medium bg-purple-500/10 px-3 py-1.5 rounded-full border border-purple-500/20">
-                                        <BarChart2 className="w-3 h-3" />
+                                    <button
+                                        onClick={() => handleAnalyze(job)}
+                                        disabled={loading && selectedJob === job}
+                                        className="text-purple-400 hover:text-purple-300 flex items-center gap-1 text-xs font-medium bg-purple-500/10 px-3 py-1.5 rounded-full border border-purple-500/20 disabled:opacity-50"
+                                    >
+                                        {loading && selectedJob === job ? <Loader2 className="w-3 h-3 animate-spin" /> : <BarChart2 className="w-3 h-3" />}
                                         Analyze
                                     </button>
                                 </td>

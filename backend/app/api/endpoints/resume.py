@@ -3,6 +3,8 @@ from typing import Any
 from app.api import deps
 from app.db.supabase import supabase
 from app.services.parser import parser
+from app.services.ai_engine import ai_engine
+from pydantic import BaseModel
 import json
 
 router = APIRouter()
@@ -62,3 +64,18 @@ def get_resume(
     if not result.data:
         raise HTTPException(status_code=404, detail="Resume not found")
     return result.data[0]
+
+class ImproveRequest(BaseModel):
+    text: str
+    target_role: str = "General"
+
+@router.post("/improve")
+def improve_resume_text(
+    request: ImproveRequest,
+    current_user: Any = Depends(deps.get_current_user)
+) -> Any:
+    """
+    Improve a resume bullet point or summary using AI.
+    """
+    improved_text = ai_engine.improve_bullet_point(request.text)
+    return {"original": request.text, "improved": improved_text}
