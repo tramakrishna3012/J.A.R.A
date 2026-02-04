@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -42,6 +42,16 @@ export function Sidebar() {
                     );
                 })}
             </nav>
+
+            <div className="px-4 pb-2">
+                <Link
+                    href="/"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium text-gray-400 hover:bg-white/5 hover:text-white border border-white/5"
+                >
+                    <Home className="w-5 h-5" />
+                    Back to Website
+                </Link>
+            </div>
 
             <div className="p-4 border-t border-white/10">
                 <button className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-400 hover:bg-red-500/10 transition text-sm font-medium">
