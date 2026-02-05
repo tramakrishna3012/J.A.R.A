@@ -123,9 +123,17 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="w-full border-t border-white/10 py-12 text-center text-gray-500 text-sm bg-zinc-950">
-        <p className="mb-2">Built with ❤️ by T Rama Krishna.</p>
-        <p className="opacity-50">Running on 100% Free Tier Infrastructure.</p>
+      <footer className="w-full border-t border-white/10 py-12 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <div className="text-center md:text-left">
+            <p className="mb-2">Built with ❤️ by T Rama Krishna.</p>
+            <p className="opacity-50">Running on 100% Free Tier Infrastructure.</p>
+          </div>
+          <div className="flex gap-6">
+            <Link href="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-white transition">Terms of Service</Link>
+          </div>
+        </div>
       </footer>
     </main>
   );
