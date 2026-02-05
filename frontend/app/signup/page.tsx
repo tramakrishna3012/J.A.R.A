@@ -34,6 +34,9 @@ export default function SignupPage() {
         <div className="min-h-screen flex items-center justify-center bg-black text-white p-4">
             <div className="w-full max-w-md p-8 rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl">
                 <div className="text-center mb-8">
+                    <div className="flex justify-center mb-4">
+                        <img src="/J.A.R.A Logo.png" alt="J.A.R.A" className="h-12 w-auto" />
+                    </div>
                     <h1 className="text-3xl font-bold mb-2">Create Account</h1>
                     <p className="text-gray-400">Join J.A.R.A to automate your job hunt</p>
                 </div>
