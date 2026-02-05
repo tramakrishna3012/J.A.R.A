@@ -3,6 +3,7 @@
 import { Mail, Send, PenTool, RefreshCw, Lock, Link as LinkIcon, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import api from "@/lib/api";
+import { supabase } from "@/lib/supabase";
 
 export default function MailboxPage() {
     const [connected, setConnected] = useState(false);
@@ -25,6 +26,15 @@ export default function MailboxPage() {
             setLoading(false);
         }
     };
+
+    // Auto-fill email from session
+    useState(() => {
+        supabase.auth.getUser().then(({ data: { user } }) => {
+            if (user?.email) {
+                setCreds(prev => ({ ...prev, email: user.email! }));
+            }
+        });
+    });
 
     return (
         <div className="h-[calc(100vh-8rem)] flex gap-6">
