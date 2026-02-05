@@ -48,8 +48,9 @@ export default function MailboxPage() {
                             setConnected(true);
                         })
                         .catch(err => {
-                            // console.error("OAuth Fetch Error:", err);
-                            // Make silent fail so user can still manually input if needed
+                            console.error("OAuth Fetch Error Full:", err);
+                            console.error("Response Data:", err.response?.data);
+                            // alert("Gmail Connection Failed: " + (err.response?.data?.detail || err.message));
                         })
                         .finally(() => setLoading(false));
                 }

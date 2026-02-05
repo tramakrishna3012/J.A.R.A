@@ -20,7 +20,10 @@ def fetch_emails(request: EmailConnectRequest) -> Any:
     if not request.password and not request.oauth_token:
         raise HTTPException(status_code=400, detail="Either password or oauth_token is required")
         
+    print(f"DEBUG: Connecting with {request.email}, has_pwd={bool(request.password)}, has_token={bool(request.oauth_token)}")
     emails = email_reader.connect_and_fetch(request.email, request.password, request.oauth_token)
     if emails and "error" in emails[0]:
-        raise HTTPException(status_code=400, detail=emails[0]["error"])
+        print(f"DEBUG: IMAP Error Result: {emails[0]['error']}")
+        raise HTTPException(status_code=400, detail=f"IMAP Error: {emails[0]['error']}")
+    return emails
     return emails
