@@ -1,8 +1,16 @@
 import axios from 'axios';
 import { supabase } from './supabase';
 
+const getBaseUrl = () => {
+    let url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+    if (!url.includes('/api/v1')) {
+        url = `${url}/api/v1`;
+    }
+    return url;
+};
+
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
+    baseURL: getBaseUrl(),
 });
 
 // Add a request interceptor to inject the Supabase JWT
