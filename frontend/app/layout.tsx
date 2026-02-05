@@ -12,9 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "J.A.R.A - AI Job Assistant",
+title: "J.A.R.A - AI Job Assistant",
   description: "Automate your job hunt with AI",
+    icons: {
+  icon: "/J.A.R.A Logo.png",
+  },
 };
 
 export default function RootLayout({
