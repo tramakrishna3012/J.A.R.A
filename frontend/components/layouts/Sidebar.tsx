@@ -15,6 +15,7 @@ const navItems = [
 ];
 
 export function Sidebar() {
+    const pathname = usePathname();
     const router = useRouter();
 
     const handleSignOut = async () => {
