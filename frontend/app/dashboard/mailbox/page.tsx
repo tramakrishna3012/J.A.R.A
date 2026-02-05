@@ -27,11 +27,32 @@ export default function MailboxPage() {
         }
     };
 
-    // Auto-fill email from session
+    // Auto-fill email and Check for OAuth Token
     useState(() => {
-        supabase.auth.getUser().then(({ data: { user } }) => {
-            if (user?.email) {
-                setCreds(prev => ({ ...prev, email: user.email! }));
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user?.email) {
+                const userEmail = session.user.email;
+                setCreds(prev => ({ ...prev, email: userEmail }));
+
+                // If we have a provider token (from Google Login), try to use it
+                if (session.provider_token) {
+                    // console.log("Found Google OAuth Token:", session.provider_token);
+                    // Automatically try to fetch emails
+                    setLoading(true);
+                    api.post("/inbox/fetch", {
+                        email: userEmail,
+                        oauth_token: session.provider_token
+                    })
+                        .then(res => {
+                            setEmails(res.data);
+                            setConnected(true);
+                        })
+                        .catch(err => {
+                            // console.error("OAuth Fetch Error:", err);
+                            // Make silent fail so user can still manually input if needed
+                        })
+                        .finally(() => setLoading(false));
+                }
             }
         });
     });
