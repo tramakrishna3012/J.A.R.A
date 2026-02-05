@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "J.A.R.A - AI Job Assistant",
   description: "Automate your job hunt with AI",
   icons: {
-    icon: "/J.A.R.A Logo.png",
+    icon: "/logo.png",
   },
 };
 

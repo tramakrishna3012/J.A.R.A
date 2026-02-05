@@ -34,7 +34,7 @@ export default function LoginPage() {
             <div className="w-full max-w-md p-8 rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl">
                 <div className="text-center mb-8">
                     <div className="flex items-center justify-center gap-3 mb-6">
-                        <img src="/J.A.R.A Logo.png" alt="J.A.R.A" className="h-10 w-auto" />
+                        <img src="/logo.png" alt="J.A.R.A" className="h-10 w-auto" />
                         <span className="text-2xl font-bold">J.A.R.A</span>
                     </div>
                     <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>

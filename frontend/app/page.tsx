@@ -33,7 +33,7 @@ export default function Home() {
       {/* Navbar */}
       <nav className="w-full max-w-7xl mx-auto flex items-center justify-between p-6 z-50">
         <div className="flex items-center gap-3">
-          <img src="/J.A.R.A Logo.png" alt="J.A.R.A Logo" className="h-10 w-auto" />
+          <img src="/logo.png" alt="J.A.R.A Logo" className="h-10 w-auto" />
           <span className="text-2xl font-bold tracking-tighter">J.A.R.A</span>
         </div>
         <div className="flex gap-4 items-center">
