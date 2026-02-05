@@ -55,7 +55,7 @@ export default function MailboxPage() {
                             <h2 className="text-xl font-bold mb-2">Connect Your Email</h2>
                             <p className="text-gray-400 text-sm mb-6">
                                 Enter your email credentials to fetch real-time job updates.
-                                <br /> Use an <strong className="text-white">App Password</strong> for Gmail.
+                                <br /> For Gmail, you <strong>MUST</strong> use an <a href="https://myaccount.google.com/apppasswords" target="_blank" className="text-blue-400 hover:underline">App Password</a> (Not your login password).
                             </p>
 
                             <form onSubmit={handleConnect} className="space-y-4 text-left">
@@ -108,9 +108,9 @@ export default function MailboxPage() {
                             {emails.map((email: any) => (
                                 <div key={email.id} className="p-4 hover:bg-white/5 cursor-pointer transition flex gap-4">
                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${email.category === "Application" ? "bg-green-500/20 text-green-500" :
-                                            email.category === "Interview" ? "bg-purple-500/20 text-purple-500" :
-                                                email.category === "Rejection" ? "bg-red-500/20 text-red-500" :
-                                                    "bg-zinc-800 text-gray-400"
+                                        email.category === "Interview" ? "bg-purple-500/20 text-purple-500" :
+                                            email.category === "Rejection" ? "bg-red-500/20 text-red-500" :
+                                                "bg-zinc-800 text-gray-400"
                                         }`}>
                                         <Mail className="w-5 h-5" />
                                     </div>
@@ -125,8 +125,8 @@ export default function MailboxPage() {
                                     <div className="flex flex-col items-end justify-center w-24 gap-2">
                                         {email.category !== "Inbox" && (
                                             <span className={`text-[10px] px-2 py-0.5 rounded-full border uppercase tracking-wide ${email.category === "Application" ? "border-green-500/30 text-green-400" :
-                                                    email.category === "Interview" ? "border-purple-500/30 text-purple-400" :
-                                                        "border-red-500/30 text-red-400"
+                                                email.category === "Interview" ? "border-purple-500/30 text-purple-400" :
+                                                    "border-red-500/30 text-red-400"
                                                 }`}>
                                                 {email.category}
                                             </span>
