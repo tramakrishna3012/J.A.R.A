@@ -18,8 +18,9 @@ export function Sidebar() {
 
     return (
         <aside className="w-64 bg-zinc-900 border-r border-white/10 flex flex-col h-screen fixed left-0 top-0">
-            <div className="p-6">
+            <div className="p-6 flex items-center gap-3">
                 <img src="/J.A.R.A Logo.png" alt="J.A.R.A" className="h-8 w-auto" />
+                <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">J.A.R.A</span>
             </div>
 
             <nav className="flex-1 px-4 space-y-2">
