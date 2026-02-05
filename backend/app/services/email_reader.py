@@ -11,14 +11,16 @@ class EmailReaderService:
         # For this free-tier demo, we will accept them as parameters or env vars
         self.imap_server = "imap.gmail.com"
 
-    def connect_and_fetch(self, username: str, password: str, limit: int = 10) -> List[Dict]:
-        """
-        Connects to IMAP, searches for recent emails, and returns simplified objects.
-        """
-        try:
             # Connect to the server
             mail = imaplib.IMAP4_SSL(self.imap_server)
-            mail.login(username, password)
+            
+            if oauth_token:
+                # Generate XOAUTH2 string
+                auth_string = f"user={username}\x01auth=Bearer {oauth_token}\x01\x01"
+                mail.authenticate("XOAUTH2", lambda x: auth_string.encode("utf-8"))
+            else:
+                mail.login(username, password)
+                
             mail.select("inbox")
 
             # Search for all emails (you can filter by date if needed)
