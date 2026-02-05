@@ -95,7 +95,11 @@ export default function MailboxPage() {
                                         provider: 'google',
                                         options: {
                                             scopes: 'https://www.googleapis.com/auth/gmail.readonly',
-                                            redirectTo: `${window.location.origin}/dashboard/mailbox`
+                                            redirectTo: `${window.location.origin}/dashboard/mailbox`,
+                                            queryParams: {
+                                                access_type: 'offline',
+                                                prompt: 'consent'
+                                            }
                                         }
                                     });
                                 }}
