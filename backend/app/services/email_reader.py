@@ -100,12 +100,19 @@ class EmailReaderService:
                         elif "reject" in lower_sub or "unfortunately" in lower_sub:
                             category = "Rejection"
 
+                        # Clean snippet (remove HTML tags)
+                        import re
+                        clean_text = re.sub(r'<[^>]+>', '', body)
+                        # Remove extra whitespace
+                        clean_text = " ".join(clean_text.split())
+
                         results.append({
                             "id": e_id.decode(),
                             "subject": subject,
                             "from": from_,
-                            "snippet": body[:200] + "...", # Truncate for display
+                            "snippet": clean_text[:200] + "...", # Truncate for display
                             "date": msg.get("Date"),
+                            "body": body, # Send full body for detail view
                             "category": category
                         })
 
