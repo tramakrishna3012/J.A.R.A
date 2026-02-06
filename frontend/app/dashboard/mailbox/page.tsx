@@ -94,7 +94,7 @@ export default function MailboxPage() {
                                     await supabase.auth.signInWithOAuth({
                                         provider: 'google',
                                         options: {
-                                            scopes: 'https://www.googleapis.com/auth/gmail.readonly',
+                                            scopes: 'https://mail.google.com/',
                                             redirectTo: `${window.location.origin}/dashboard/mailbox`,
                                             queryParams: {
                                                 access_type: 'offline',
