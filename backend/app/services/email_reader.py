@@ -56,20 +56,39 @@ class EmailReaderService:
                         
                         # Get Body
                         body = ""
-                        if msg.is_multipart():
-                            for part in msg.walk():
-                                content_type = part.get_content_type()
-                                content_disposition = str(part.get("Content-Disposition"))
-                                if "attachment" not in content_disposition:
-                                    if content_type == "text/plain":
-                                        body = part.get_payload(decode=True).decode()
-                                        break # Prefer plain text
-                                    elif content_type == "text/html":
-                                        # Fallback to HTML if no plain text found yet
-                                        if not body:
-                                            body = part.get_payload(decode=True).decode()
-                        else:
-                            body = msg.get_payload(decode=True).decode()
+                        try:
+                            if msg.is_multipart():
+                                for part in msg.walk():
+                                    content_type = part.get_content_type()
+                                    content_disposition = str(part.get("Content-Disposition"))
+                                    if "attachment" not in content_disposition:
+                                        payload = part.get_payload(decode=True)
+                                        if not payload: continue
+                                        
+                                        if content_type == "text/plain":
+                                            # Try UTF-8 first, then fallback to latin-1
+                                            try:
+                                                body = payload.decode('utf-8')
+                                            except UnicodeDecodeError:
+                                                body = payload.decode('latin-1', errors='replace')
+                                            break # Prefer plain text
+                                        elif content_type == "text/html":
+                                            # Fallback to HTML if no plain text found yet
+                                            if not body:
+                                                try:
+                                                    body = payload.decode('utf-8')
+                                                except UnicodeDecodeError:
+                                                    body = payload.decode('latin-1', errors='replace')
+                            else:
+                                payload = msg.get_payload(decode=True)
+                                if payload:
+                                    try:
+                                        body = payload.decode('utf-8')
+                                    except UnicodeDecodeError:
+                                        body = payload.decode('latin-1', errors='replace')
+                        except Exception as e:
+                            print(f"Error decoding body for {e_id}: {e}")
+                            body = "(Error decoding email body)"
 
                         # Basic Classification Preview (will be improved by AI later)
                         category = "Inbox"
