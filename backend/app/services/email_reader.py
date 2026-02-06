@@ -90,15 +90,29 @@ class EmailReaderService:
                             print(f"Error decoding body for {e_id}: {e}")
                             body = "(Error decoding email body)"
 
-                        # Basic Classification Preview (will be improved by AI later)
+                        # Clean snippet (remove HTML tags)
+                        import re
+                        clean_text = re.sub(r'<[^>]+>', '', body)
+                        # Remove extra whitespace
+                        clean_text = " ".join(clean_text.split())
+
+                        # Enhanced Classification
                         category = "Inbox"
-                        lower_sub = subject.lower()
-                        if "application" in lower_sub or "applied" in lower_sub:
+                        lower_combined = (subject + " " + clean_text).lower()
+                        
+                        # Keywords mappings
+                        app_keywords = ["application", "applied", "thank you for applying", "received your", "position", "role"]
+                        reject_keywords = ["unfortunately", "not moving forward", "other candidates", "high volume", "regret to inform", "not selected"]
+                        interview_keywords = ["interview", "schedule", "availability", "meet", "discuss your application", "next steps", "zoom", "google meet"]
+
+                        if any(k in lower_combined for k in app_keywords):
                             category = "Application"
-                        elif "interview" in lower_sub or "schedule" in lower_sub:
-                            category = "Interview"
-                        elif "reject" in lower_sub or "unfortunately" in lower_sub:
-                            category = "Rejection"
+                        
+                        if any(k in lower_combined for k in reject_keywords):
+                            category = "Rejection" # Rejection is more specific than Application
+
+                        if any(k in lower_combined for k in interview_keywords):
+                            category = "Interview" # Interview is most important
 
                         # Clean snippet (remove HTML tags)
                         import re
