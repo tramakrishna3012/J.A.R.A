@@ -86,12 +86,21 @@ export default function MailboxPage() {
 
 
     return (
-        <div className="h-[calc(100vh-8rem)] flex gap-6">
-            {/* Sidebar */}
-            <div className="w-64 flex flex-col gap-2">
+    return (
+        <div className="flex flex-col md:flex-row h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] gap-4 md:gap-6">
+            {/* Sidebar (Folders) */}
+            <div className="w-full md:w-64 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 shrink-0">
                 <button
                     onClick={() => { setViewMode("compose"); setSelectedEmail(null); }}
-                    className="flex items-center gap-3 px-4 py-3 bg-purple-600 rounded-xl font-medium hover:bg-purple-700 transition mb-4"
+                    className="flex md:hidden items-center justify-center gap-2 px-4 py-2 bg-purple-600 rounded-xl font-medium shrink-0"
+                >
+                    <PenTool className="w-4 h-4" />
+                    <span className="sr-only">Compose</span>
+                </button>
+
+                <button
+                    onClick={() => { setViewMode("compose"); setSelectedEmail(null); }}
+                    className="hidden md:flex items-center gap-3 px-4 py-3 bg-purple-600 rounded-xl font-medium hover:bg-purple-700 transition mb-4"
                 >
                     <PenTool className="w-4 h-4" />
                     Compose
@@ -100,7 +109,7 @@ export default function MailboxPage() {
                     <button
                         key={folder}
                         onClick={() => { setActiveFolder(folder); setViewMode("list"); setSelectedEmail(null); }}
-                        className={`flex items-center gap-3 px-4 py-2 rounded-lg transition text-left ${activeFolder === folder ? "bg-white/10 text-white" : "text-gray-400 hover:text-white"}`}
+                        className={`flex items-center gap-3 px-4 py-2 rounded-lg transition whitespace-nowrap ${activeFolder === folder ? "bg-white/10 text-white" : "text-gray-400 hover:text-white"}`}
                     >
                         <Mail className="w-4 h-4" />
                         {folder}
@@ -109,7 +118,7 @@ export default function MailboxPage() {
             </div>
 
             {/* Main Interface */}
-            <div className="flex-1 flex flex-col rounded-2xl border border-white/10 bg-zinc-900 overflow-hidden relative">
+            <div className="flex-1 flex flex-col rounded-2xl border border-white/10 bg-zinc-900 overflow-hidden relative min-h-0">
 
                 {/* Connection Overlay */}
                 {!connected && (
