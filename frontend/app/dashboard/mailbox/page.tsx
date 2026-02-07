@@ -86,7 +86,6 @@ export default function MailboxPage() {
 
 
     return (
-    return (
         <div className="flex flex-col md:flex-row h-[calc(100vh-10rem)] md:h-[calc(100vh-8rem)] gap-4 md:gap-6">
             {/* Sidebar (Folders) */}
             <div className="w-full md:w-64 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 shrink-0">
