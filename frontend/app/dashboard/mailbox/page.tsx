@@ -11,7 +11,6 @@ export default function MailboxPage() {
     const [emails, setEmails] = useState<any[]>([]);
     const [selectedEmail, setSelectedEmail] = useState<any | null>(null);
     const [activeFolder, setActiveFolder] = useState("Inbox");
-    const [activeFolder, setActiveFolder] = useState("Inbox");
     const [viewMode, setViewMode] = useState<"list" | "detail" | "compose">("list");
     const [initializing, setInitializing] = useState(true);
 
