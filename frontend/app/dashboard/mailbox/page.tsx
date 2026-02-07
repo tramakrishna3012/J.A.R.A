@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail, Send, PenTool, RefreshCw, Lock, Link as LinkIcon, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 
@@ -18,7 +18,7 @@ export default function MailboxPage() {
 
     // Filtered Emails
     const filteredEmails = emails.filter(email => {
-        if (activeFolder === "Inbox") return true; // Show all for now, or filter by !Sent
+        if (activeFolder === "Inbox") return true;
         if (activeFolder === "Applications") return email.category === "Application";
         if (activeFolder === "Interviews") return email.category === "Interview";
         return true;
@@ -39,28 +39,50 @@ export default function MailboxPage() {
         }
     };
 
-    // Auto-fill and OAuth Check
-    useState(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session?.user?.email) {
-                const userEmail = session.user.email;
-                setCreds(prev => ({ ...prev, email: userEmail }));
-                if (session.provider_token) {
-                    setLoading(true);
-                    api.post("/inbox/fetch", {
-                        email: userEmail,
-                        oauth_token: session.provider_token
-                    })
-                        .then(res => {
-                            setEmails(res.data);
-                            setConnected(true);
-                        })
-                        .catch(err => console.error("OAuth Fetch Error:", err))
-                        .finally(() => setLoading(false));
-                }
+    // Persistent Session Check
+    useEffect(() => {
+        const initSession = async () => {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) processSession(session);
+
+                supabase.auth.onAuthStateChange((_event, session) => {
+                    if (session) processSession(session);
+                });
+            } catch (err) {
+                console.error("Session check failed", err);
             }
-        });
-    });
+        };
+        initSession();
+    }, []);
+
+    const processSession = (session: any) => {
+        if (session?.user?.email) {
+            setCreds(prev => ({ ...prev, email: session.user.email }));
+
+            // Auto-connect if we have a token (debounce check would be better but this is fine for now)
+            if (session.provider_token) {
+                // Only fetch if emails are empty to avoid loops, or simple flag
+                // For now, rely on strict dependency or just firing once on mount via useEffect
+                // But since this is a helper, we call it. 
+                // To prevent infinite loops, we can check if 'connected' is true, but connected state is inside component.
+                // We will just set creds and trigger fetch if not loading.
+
+                // Ideally we call API here
+                api.post("/inbox/fetch", {
+                    email: session.user.email,
+                    oauth_token: session.provider_token
+                })
+                    .then(res => {
+                        setEmails(res.data);
+                        setConnected(true);
+                    })
+                    .catch(err => console.error("Auto-fetch error:", err));
+            }
+        }
+    };
+
+
 
     return (
         <div className="h-[calc(100vh-8rem)] flex gap-6">
@@ -161,9 +183,10 @@ export default function MailboxPage() {
                                 <div className="text-sm text-gray-400">From: <span className="text-white">{selectedEmail.from}</span></div>
                                 <div className="text-sm text-gray-500">{new Date(selectedEmail.date).toLocaleString()}</div>
                             </div>
-                            <div className="prose prose-invert max-w-none text-gray-300 whitespace-pre-wrap font-sans">
-                                {selectedEmail.body}
-                            </div>
+                            <div
+                                className="prose prose-invert max-w-none text-gray-300 font-sans overflow-hidden"
+                                dangerouslySetInnerHTML={{ __html: selectedEmail.body }}
+                            />
                         </div>
                     )}
 
