@@ -48,21 +48,23 @@ export default function DashboardPage() {
             </div>
 
             {/* Charts Area */}
-            <div className="h-96 rounded-2xl border border-white/10 bg-zinc-900/50 p-6">
+            <div className="h-96 rounded-2xl border border-white/10 bg-zinc-900/50 p-6 flex flex-col">
                 <h3 className="text-lg font-bold mb-6">Application Activity</h3>
-                <ResponsiveContainer width="100%" height="85%">
-                    <BarChart data={data}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
-                        <XAxis dataKey="name" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
-                        <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
-                        <Tooltip
-                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#333', borderRadius: '8px', color: '#fff' }}
-                            itemStyle={{ color: '#a855f7' }}
-                            cursor={{ fill: '#ffffff05' }}
-                        />
-                        <Bar dataKey="apps" fill="#9333ea" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                </ResponsiveContainer>
+                <div className="flex-1 w-full min-h-0">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={data}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
+                            <XAxis dataKey="name" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
+                            <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
+                            <Tooltip
+                                contentStyle={{ backgroundColor: '#18181b', borderColor: '#333', borderRadius: '8px', color: '#fff' }}
+                                itemStyle={{ color: '#a855f7' }}
+                                cursor={{ fill: '#ffffff05' }}
+                            />
+                            <Bar dataKey="apps" fill="#9333ea" radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
         </div>
     );
