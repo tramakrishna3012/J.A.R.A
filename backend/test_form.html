@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Application Test</title>
+</head>
+<body>
+    <h1>Apply for Senior Engineer</h1>
+    <form id="application-form">
+        <div>
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="name" placeholder="John Doe">
+        </div>
+        <div>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        <div>
+            <label for="linkedin">LinkedIn URL</label>
+            <input type="url" id="linkedin" name="linkedin">
+        </div>
+        <div>
+            <label for="experience">Years of Experience</label>
+            <select id="experience" name="experience">
+                <option value="0-1">0-1 Years</option>
+                <option value="2-5">2-5 Years</option>
+                <option value="5+">5+ Years</option>
+            </select>
+        </div>
+        <div>
+            <label>Cover Letter</label>
+            <textarea name="cover_letter" rows="5"></textarea>
+        </div>
+        <button type="submit">Submit Application</button>
+    </form>
+</body>
+</html>

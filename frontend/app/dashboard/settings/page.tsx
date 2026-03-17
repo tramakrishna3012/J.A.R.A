@@ -38,16 +38,16 @@ export default function SettingsPage() {
 
             <div className="max-w-2xl space-y-6">
                 {/* Profile Card */}
-                <div className="p-6 rounded-2xl border border-white/10 bg-zinc-900/50">
+                <div className="p-6 rounded-2xl border border-white/10 bg-obsidian/50 shadow-xl shadow-black/50">
                     <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <User className="w-5 h-5 text-purple-400" />
+                        <User className="w-5 h-5 text-electric" />
                         Profile
                     </h2>
 
                     <div className="space-y-4">
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-medium text-gray-400">Email Address</label>
-                            <div className="flex items-center gap-3 px-4 py-3 bg-zinc-950 rounded-xl border border-white/5 text-gray-200">
+                            <div className="flex items-center gap-3 px-4 py-3 bg-night rounded-xl border border-white/5 text-gray-200">
                                 <Mail className="w-4 h-4 text-gray-500" />
                                 {user?.email || "Loading..."}
                             </div>
@@ -55,7 +55,7 @@ export default function SettingsPage() {
 
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-medium text-gray-400">User ID</label>
-                            <div className="px-4 py-3 bg-zinc-950 rounded-xl border border-white/5 text-gray-500 font-mono text-sm">
+                            <div className="px-4 py-3 bg-night rounded-xl border border-white/5 text-gray-500 font-mono text-sm">
                                 {user?.id || "Loading..."}
                             </div>
                         </div>
@@ -63,7 +63,7 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Account Actions */}
-                <div className="p-6 rounded-2xl border border-white/10 bg-zinc-900/50">
+                <div className="p-6 rounded-2xl border border-white/10 bg-obsidian/50 shadow-xl shadow-black/50">
                     <h2 className="text-xl font-bold mb-6 text-red-400">Danger Zone</h2>
                     <button
                         onClick={handleLogout}

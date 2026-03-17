@@ -49,10 +49,10 @@ export default function JobsPage() {
             {/* Analysis Modal */}
             {showAnalysis && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                    <div className="bg-zinc-900 border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-200">
+                    <div className="bg-obsidian border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-black/80 animate-in zoom-in-95 duration-200">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-xl font-bold flex items-center gap-2">
-                                <BarChart2 className="w-5 h-5 text-purple-500" />
+                                <BarChart2 className="w-5 h-5 text-electric" />
                                 ATS Analysis for {selectedJob?.company}
                             </h3>
                             <button onClick={() => setShowAnalysis(false)} className="text-gray-400 hover:text-white">
@@ -62,16 +62,16 @@ export default function JobsPage() {
 
                         <div className="space-y-6">
                             <div className="text-center">
-                                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full border-4 border-purple-500/20 text-3xl font-bold text-white mb-2 relative">
+                                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full border-4 border-electric/20 text-3xl font-bold text-white mb-2 relative">
                                     {analysisData?.match_score}%
                                     <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="46" fill="transparent" stroke="currentColor" strokeWidth="8" className="text-purple-600" strokeDasharray={`${analysisData?.match_score * 2.9} 289`} />
+                                        <circle cx="50" cy="50" r="46" fill="transparent" stroke="currentColor" strokeWidth="8" className="text-electric" strokeDasharray={`${analysisData?.match_score * 2.9} 289`} />
                                     </svg>
                                 </div>
                                 <p className="text-sm text-gray-400">Match Score</p>
                             </div>
 
-                            <div className="bg-zinc-950/50 rounded-xl p-4 border border-white/5">
+                            <div className="bg-night/50 rounded-xl p-4 border border-white/5">
                                 <h4 className="font-medium text-sm text-gray-300 mb-3">Missing Keywords</h4>
                                 <div className="flex flex-wrap gap-2">
                                     {analysisData?.missing_keywords.map((kw: string) => (
@@ -82,7 +82,7 @@ export default function JobsPage() {
                                 </div>
                             </div>
 
-                            <button onClick={() => setShowAnalysis(false)} className="w-full py-3 bg-purple-600 rounded-xl font-medium hover:bg-purple-700 transition">
+                            <button onClick={() => setShowAnalysis(false)} className="w-full py-3 bg-electric text-white rounded-xl font-medium hover:bg-electric/90 transition shadow-lg shadow-electric/20">
                                 Optimize Resume for This Job
                             </button>
                         </div>
@@ -96,7 +96,7 @@ export default function JobsPage() {
                     <p className="text-gray-400">Track and manage your job hunt.</p>
                 </div>
                 <div className="flex gap-2">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-purple-600 rounded-lg font-medium hover:bg-purple-700 transition">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-electric text-white rounded-lg font-medium hover:bg-electric/90 transition shadow-lg shadow-electric/20">
                         <Plus className="w-4 h-4" />
                         Add Job
                     </button>
@@ -125,10 +125,10 @@ export default function JobsPage() {
                     <input
                         type="text"
                         placeholder="Search companies or roles..."
-                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-zinc-700"
+                        className="w-full bg-obsidian border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-electric"
                     />
                 </div>
-                <button className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm font-medium hover:bg-zinc-800 flex items-center gap-2">
+                <button className="px-4 py-2 bg-obsidian border border-white/10 rounded-xl text-sm font-medium hover:bg-obsidian/80 flex items-center gap-2">
                     <Filter className="w-4 h-4" />
                     Filter
                 </button>
@@ -137,7 +137,7 @@ export default function JobsPage() {
             {/* Table */}
             <div className="rounded-2xl border border-white/10 overflow-hidden">
                 <table className="w-full text-left text-sm">
-                    <thead className="bg-zinc-900 text-gray-400 font-medium">
+                    <thead className="bg-obsidian text-slate-400 font-medium">
                         <tr>
                             <th className="p-4">Company</th>
                             <th className="p-4">Role</th>
@@ -161,7 +161,7 @@ export default function JobsPage() {
                                     <button
                                         onClick={() => handleAnalyze(job)}
                                         disabled={loading && selectedJob === job}
-                                        className="text-purple-400 hover:text-purple-300 flex items-center gap-1 text-xs font-medium bg-purple-500/10 px-3 py-1.5 rounded-full border border-purple-500/20 disabled:opacity-50"
+                                        className="text-electric hover:text-white flex items-center gap-1 text-xs font-medium bg-electric/10 px-3 py-1.5 rounded-full border border-electric/20 disabled:opacity-50 transition"
                                     >
                                         {loading && selectedJob === job ? <Loader2 className="w-3 h-3 animate-spin" /> : <BarChart2 className="w-3 h-3" />}
                                         Analyze

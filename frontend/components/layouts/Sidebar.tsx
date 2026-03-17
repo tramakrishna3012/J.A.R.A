@@ -28,12 +28,12 @@ export function Sidebar() {
     return (
         <>
             {/* Desktop Sidebar */}
-            <aside className="hidden md:flex w-64 bg-zinc-900 border-r border-white/10 flex-col h-screen fixed left-0 top-0 z-50">
+            <aside className="hidden md:flex w-64 bg-obsidian border-r border-white/10 flex-col h-screen fixed left-0 top-0 z-50">
                 <div className="p-6 flex items-center gap-3">
                     <div className="relative w-8 h-8 shrink-0">
                         <img src="/logo.png" alt="J.A.R.A" className="object-contain w-full h-full" />
                     </div>
-                    <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent truncate">J.A.R.A</span>
+                    <span className="text-xl font-bold bg-gradient-to-r from-electric to-neon bg-clip-text text-transparent truncate tracking-wider">J.A.R.A</span>
                 </div>
 
                 <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
@@ -45,7 +45,7 @@ export function Sidebar() {
                                 href={item.href}
                                 className={cn(
                                     "flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium",
-                                    isActive ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20" : "text-gray-400 hover:bg-white/5 hover:text-white"
+                                    isActive ? "bg-electric text-white shadow-lg shadow-electric/20" : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
                                 )}
                             >
                                 <item.icon className="w-5 h-5 shrink-0" />
@@ -77,7 +77,7 @@ export function Sidebar() {
             </aside>
 
             {/* Mobile Bottom Navigation */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-white/10 z-50 flex justify-between px-6 py-3 safe-area-bottom">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-obsidian border-t border-white/10 z-50 flex justify-between px-6 py-3 safe-area-bottom">
                 {navItems.slice(0, 4).map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -85,8 +85,8 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "flex flex-col items-center gap-1",
-                                isActive ? "text-purple-500" : "text-gray-500"
+                                "flex flex-col items-center gap-1 transition-colors",
+                                isActive ? "text-electric" : "text-slate-500 hover:text-slate-300"
                             )}
                         >
                             <item.icon className="w-6 h-6" />
@@ -97,8 +97,8 @@ export function Sidebar() {
                 <Link
                     href="/dashboard/settings"
                     className={cn(
-                        "flex flex-col items-center gap-1",
-                        pathname === "/dashboard/settings" ? "text-purple-500" : "text-gray-500"
+                        "flex flex-col items-center gap-1 transition-colors",
+                        pathname === "/dashboard/settings" ? "text-electric" : "text-slate-500 hover:text-slate-300"
                     )}
                 >
                     <Settings className="w-6 h-6" />

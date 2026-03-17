@@ -91,7 +91,7 @@ export default function MailboxPage() {
             <div className="w-full md:w-64 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 shrink-0">
                 <button
                     onClick={() => { setViewMode("compose"); setSelectedEmail(null); }}
-                    className="flex md:hidden items-center justify-center gap-2 px-4 py-2 bg-purple-600 rounded-xl font-medium shrink-0"
+                    className="flex md:hidden items-center justify-center gap-2 px-4 py-2 bg-electric rounded-xl font-medium shrink-0 text-white"
                 >
                     <PenTool className="w-4 h-4" />
                     <span className="sr-only">Compose</span>
@@ -99,7 +99,7 @@ export default function MailboxPage() {
 
                 <button
                     onClick={() => { setViewMode("compose"); setSelectedEmail(null); }}
-                    className="hidden md:flex items-center gap-3 px-4 py-3 bg-purple-600 rounded-xl font-medium hover:bg-purple-700 transition mb-4"
+                    className="hidden md:flex items-center gap-3 px-4 py-3 bg-electric text-white rounded-xl font-medium hover:bg-electric/90 transition mb-4 shadow-lg shadow-electric/20"
                 >
                     <PenTool className="w-4 h-4" />
                     Compose
@@ -117,15 +117,15 @@ export default function MailboxPage() {
             </div>
 
             {/* Main Interface */}
-            <div className="flex-1 flex flex-col rounded-2xl border border-white/10 bg-zinc-900 overflow-hidden relative min-h-0">
+            <div className="flex-1 flex flex-col rounded-2xl border border-white/10 bg-obsidian overflow-hidden relative min-h-0">
 
                 {/* Connection Overlay */}
                 {!connected && (
                     <div className="absolute inset-0 z-10 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-8 text-center">
-                        <div className="max-w-md w-full p-8 rounded-2xl bg-zinc-900 border border-white/10 shadow-2xl">
+                        <div className="max-w-md w-full p-8 rounded-2xl bg-obsidian border border-white/10 shadow-2xl">
                             {initializing || loading ? (
                                 <div className="flex flex-col items-center justify-center py-10">
-                                    <RefreshCw className="w-8 h-8 text-purple-500 animate-spin mb-4" />
+                                    <RefreshCw className="w-8 h-8 text-electric animate-spin mb-4" />
                                     <p className="text-gray-400">Syncing with Gmail...</p>
                                 </div>
                             ) : (
@@ -157,13 +157,13 @@ export default function MailboxPage() {
                 )}
 
                 {/* Toolbar */}
-                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-zinc-900/50">
+                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-obsidian/50">
                     <h2 className="font-bold">{viewMode === "compose" ? "Compose Message" : viewMode === "detail" ? "Reading Message" : activeFolder}</h2>
                     <span className="text-sm text-gray-500">{filteredEmails.length} messages</span>
                 </div>
 
                 {/* VIEW MODES */}
-                <div className="flex-1 overflow-y-auto bg-zinc-900">
+                <div className="flex-1 overflow-y-auto bg-obsidian">
 
                     {/* LIST VIEW */}
                     {viewMode === "list" && (
@@ -195,7 +195,7 @@ export default function MailboxPage() {
                     {/* DETAIL VIEW */}
                     {viewMode === "detail" && selectedEmail && (
                         <div className="p-6">
-                            <button onClick={() => setViewMode("list")} className="mb-4 text-sm text-purple-400 hover:underline">← Back to Inbox</button>
+                            <button onClick={() => setViewMode("list")} className="mb-4 text-sm text-electric hover:underline">← Back to Inbox</button>
                             <h1 className="text-2xl font-bold mb-2">{selectedEmail.subject}</h1>
                             <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
                                 <div className="text-sm text-gray-400">From: <span className="text-white">{selectedEmail.from}</span></div>
@@ -211,12 +211,12 @@ export default function MailboxPage() {
                     {/* COMPOSE VIEW */}
                     {viewMode === "compose" && (
                         <div className="p-6">
-                            <button onClick={() => setViewMode("list")} className="mb-4 text-sm text-purple-400 hover:underline">← Cancel</button>
+                            <button onClick={() => setViewMode("list")} className="mb-4 text-sm text-electric hover:underline">← Cancel</button>
                             <form className="space-y-4 max-w-2xl">
-                                <input type="email" placeholder="To" className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 focus:border-purple-500 outline-none" />
-                                <input type="text" placeholder="Subject" className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 focus:border-purple-500 outline-none" />
-                                <textarea placeholder="Write your message..." className="w-full h-64 bg-black border border-zinc-700 rounded-lg px-4 py-3 focus:border-purple-500 outline-none resize-none"></textarea>
-                                <button className="px-6 py-2 bg-purple-600 rounded-lg font-bold hover:bg-purple-700 transition">Send Message</button>
+                                <input type="email" placeholder="To" className="w-full bg-night border border-white/10 rounded-lg px-4 py-3 focus:border-electric outline-none" />
+                                <input type="text" placeholder="Subject" className="w-full bg-night border border-white/10 rounded-lg px-4 py-3 focus:border-electric outline-none" />
+                                <textarea placeholder="Write your message..." className="w-full h-64 bg-night border border-white/10 rounded-lg px-4 py-3 focus:border-electric outline-none resize-none"></textarea>
+                                <button className="px-6 py-2 bg-electric text-white rounded-lg font-bold hover:bg-electric/90 transition shadow-lg shadow-electric/20">Send Message</button>
                             </form>
                         </div>
                     )}

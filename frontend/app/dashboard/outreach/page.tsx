@@ -94,7 +94,7 @@ export default function OutreachPage() {
             <div className="space-y-6">
                 <header className="flex items-center justify-between">
                     <div>
-                        <button onClick={() => setSelectedCampaign(null)} className="text-purple-400 hover:underline mb-2 block text-sm">&larr; Back to Campaigns</button>
+                        <button onClick={() => setSelectedCampaign(null)} className="text-electric hover:underline mb-2 block text-sm">&larr; Back to Campaigns</button>
                         <h1 className="text-3xl font-bold">{c.name}</h1>
                         <p className="text-gray-400 text-sm">Created: {new Date(c.created_at).toLocaleDateString()}</p>
                     </div>
@@ -109,7 +109,7 @@ export default function OutreachPage() {
                         <button 
                             onClick={() => handleSendEmails(c.id)}
                             disabled={m.generated === 0 || c.status === 'running'}
-                            className="flex items-center gap-2 px-4 py-2 bg-purple-600 rounded-lg text-sm font-medium hover:bg-purple-700 transition disabled:opacity-50"
+                            className="flex items-center gap-2 px-4 py-2 bg-electric text-white rounded-lg text-sm font-medium hover:bg-electric/90 transition disabled:opacity-50 shadow-lg shadow-electric/20"
                         >
                             <Play className="w-4 h-4" />
                             Start Sending
@@ -118,31 +118,31 @@ export default function OutreachPage() {
                 </header>
 
                 <div className="grid grid-cols-5 gap-4">
-                    <div className="bg-zinc-900/50 p-4 rounded-xl border border-white/10 text-center">
+                    <div className="bg-obsidian/50 p-4 rounded-xl border border-white/10 text-center shadow-xl shadow-black/50">
                         <p className="text-2xl font-bold">{m.total}</p>
                         <p className="text-xs text-gray-500 uppercase">Total</p>
                     </div>
-                    <div className="bg-zinc-900/50 p-4 rounded-xl border border-white/10 text-center">
+                    <div className="bg-obsidian/50 p-4 rounded-xl border border-white/10 text-center shadow-xl shadow-black/50">
                         <p className="text-2xl font-bold text-yellow-500">{m.pending}</p>
                         <p className="text-xs text-gray-500 uppercase">Pending</p>
                     </div>
-                    <div className="bg-zinc-900/50 p-4 rounded-xl border border-white/10 text-center">
+                    <div className="bg-obsidian/50 p-4 rounded-xl border border-white/10 text-center shadow-xl shadow-black/50">
                         <p className="text-2xl font-bold text-blue-500">{m.generated}</p>
                         <p className="text-xs text-gray-500 uppercase">Generated</p>
                     </div>
-                    <div className="bg-zinc-900/50 p-4 rounded-xl border border-white/10 text-center">
+                    <div className="bg-obsidian/50 p-4 rounded-xl border border-white/10 text-center shadow-xl shadow-black/50">
                         <p className="text-2xl font-bold text-green-500">{m.sent}</p>
                         <p className="text-xs text-gray-500 uppercase">Sent</p>
                     </div>
-                    <div className="bg-zinc-900/50 p-4 rounded-xl border border-white/10 text-center">
+                    <div className="bg-obsidian/50 p-4 rounded-xl border border-white/10 text-center shadow-xl shadow-black/50">
                         <p className="text-2xl font-bold text-red-500">{m.failed}</p>
                         <p className="text-xs text-gray-500 uppercase">Failed</p>
                     </div>
                 </div>
 
-                <div className="bg-zinc-900/50 rounded-xl border border-white/10 overflow-hidden">
+                <div className="bg-obsidian/50 rounded-xl border border-white/10 overflow-hidden shadow-xl shadow-black/50">
                     <table className="w-full text-sm text-left">
-                        <thead className="bg-zinc-900 text-gray-400 border-b border-white/10">
+                        <thead className="bg-obsidian text-slate-400 border-b border-white/10">
                             <tr>
                                 <th className="p-4">Contact</th>
                                 <th className="p-4">Role / Company</th>
@@ -159,7 +159,7 @@ export default function OutreachPage() {
                                     </td>
                                     <td className="p-4">
                                         <div className="text-gray-300">{contact.role || 'N/A'}</div>
-                                        <div className="text-xs text-purple-400">{contact.company || 'N/A'}</div>
+                                        <div className="text-xs text-electric">{contact.company || 'N/A'}</div>
                                     </td>
                                     <td className="p-4">
                                         <span className={`px-2 py-1 rounded-md text-xs font-medium 
@@ -195,7 +195,7 @@ export default function OutreachPage() {
             <header className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
-                        <Users className="w-8 h-8 text-purple-500" />
+                        <Users className="w-8 h-8 text-electric" />
                         HR Outreach
                     </h1>
                     <p className="text-gray-400 mt-1">Upload contact lists and send automated, personalized AI emails.</p>
@@ -211,7 +211,7 @@ export default function OutreachPage() {
                     />
                     <label
                         htmlFor="file-upload"
-                        className={`flex items-center gap-2 px-4 py-2 bg-purple-600 rounded-lg font-medium transition cursor-pointer ${uploading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700'}`}
+                        className={`flex items-center gap-2 px-4 py-2 bg-electric text-white rounded-lg font-medium transition cursor-pointer shadow-lg shadow-electric/20 ${uploading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-electric/90'}`}
                     >
                         {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                         {uploading ? 'Uploading...' : 'Upload CSV/Excel'}
@@ -219,7 +219,7 @@ export default function OutreachPage() {
                 </div>
             </header>
 
-            <div className="bg-zinc-800/30 p-4 rounded-xl border border-blue-500/20 flex gap-4 text-blue-400 items-start text-sm">
+            <div className="bg-obsidian/30 p-4 rounded-xl border border-blue-500/20 flex gap-4 text-blue-400 items-start text-sm">
                 <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
                 <p>
                     <strong>Important:</strong> Ensure your uploaded CSV has columns like <code>Name</code>, <code>Email</code>, <code>Company</code>, and <code>Role</code>. J.A.R.A will use your Master Resume to tailor the outreach emails based on your skills and the company's domain.
@@ -227,9 +227,9 @@ export default function OutreachPage() {
             </div>
 
             {loading ? (
-                <div className="flex justify-center p-12"><Loader2 className="w-8 h-8 text-purple-500 animate-spin" /></div>
+                <div className="flex justify-center p-12"><Loader2 className="w-8 h-8 text-electric animate-spin" /></div>
             ) : campaigns.length === 0 ? (
-                <div className="text-center py-24 bg-zinc-900/30 rounded-2xl border border-white/5 border-dashed">
+                <div className="text-center py-24 bg-obsidian/30 rounded-2xl border border-white/5 border-dashed">
                     <Mail className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-300">No Campaigns Yet</h3>
                     <p className="text-gray-500 max-w-sm mx-auto mt-2">Upload a CSV of recruiters and hiring managers to start reaching out automatically.</p>
@@ -237,10 +237,10 @@ export default function OutreachPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {campaigns.map(camp => (
-                        <div key={camp.id} className="bg-zinc-900/80 rounded-2xl border border-white/10 p-6 hover:border-purple-500/30 transition shadow-lg flex flex-col">
+                        <div key={camp.id} className="bg-obsidian/80 backdrop-blur-sm rounded-2xl border border-white/10 p-6 hover:border-electric/30 transition shadow-lg flex flex-col">
                             <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <h3 className="font-bold text-lg text-white group-hover:text-purple-400 transition">{camp.name}</h3>
+                                    <h3 className="font-bold text-lg text-white group-hover:text-electric transition">{camp.name}</h3>
                                     <p className="text-xs text-gray-500 mt-1">{new Date(camp.created_at).toLocaleDateString()}</p>
                                 </div>
                                 <span className={`px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider 

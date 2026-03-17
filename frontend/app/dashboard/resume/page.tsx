@@ -69,7 +69,7 @@ export default function ResumePage() {
                     <p className="text-gray-400">Upload your master resume to get started.</p>
                 </header>
 
-                <div className="flex-1 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/30 flex flex-col items-center justify-center text-center p-8 hover:border-purple-500/50 hover:bg-zinc-900/50 transition relative overflow-hidden group">
+                <div className="flex-1 rounded-2xl border-2 border-dashed border-white/10 bg-obsidian/30 flex flex-col items-center justify-center text-center p-8 hover:border-electric/50 hover:bg-obsidian/50 transition relative overflow-hidden group">
                     <input
                         type="file"
                         accept=".pdf"
@@ -89,7 +89,7 @@ export default function ResumePage() {
                         </div>
                     ) : (
                         <>
-                            <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center mb-4 group-hover:bg-purple-600 transition">
+                            <div className="w-16 h-16 rounded-full bg-obsidian flex items-center justify-center mb-4 group-hover:bg-electric transition">
                                 {uploading ? <Loader2 className="w-8 h-8 text-white animate-spin" /> : <Upload className="w-8 h-8 text-white" />}
                             </div>
                             <h3 className="text-lg font-medium mb-1">{uploading ? "Parsing..." : "Click to upload PDF"}</h3>
@@ -100,20 +100,20 @@ export default function ResumePage() {
             </div>
 
             {/* Right: AI Chat */}
-            <div className="w-[400px] flex flex-col rounded-2xl border border-white/10 bg-zinc-900 shadow-xl">
-                <div className="p-4 border-b border-white/10 bg-zinc-900 rounded-t-2xl z-10">
-                    <h3 className="font-bold flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-purple-400" />
+            <div className="w-[400px] flex flex-col rounded-2xl border border-white/10 bg-obsidian shadow-xl shadow-black/50">
+                <div className="p-4 border-b border-white/10 bg-obsidian rounded-t-2xl z-10">
+                    <h3 className="font-bold flex items-center gap-2 text-slate-100">
+                        <Sparkles className="w-4 h-4 text-electric" />
                         J.A.R.A Assistant
                     </h3>
                 </div>
 
-                <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-zinc-950/50">
+                <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-night/50">
                     {messages.map((msg, i) => (
                         <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div className={`p-3 rounded-xl text-sm max-w-[85%] whitespace-pre-wrap ${msg.role === 'user'
-                                    ? 'bg-purple-600 text-white rounded-tr-none'
-                                    : 'bg-zinc-800 text-gray-200 rounded-tl-none border border-white/5'
+                                    ? 'bg-electric text-white rounded-tr-none shadow-md shadow-electric/20'
+                                    : 'bg-obsidian text-slate-300 rounded-tl-none border border-white/10'
                                 }`}>
                                 {msg.text}
                             </div>
@@ -121,14 +121,14 @@ export default function ResumePage() {
                     ))}
                     {loadingChat && (
                         <div className="flex justify-start">
-                            <div className="bg-zinc-800 p-3 rounded-xl rounded-tl-none border border-white/5">
-                                <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
+                            <div className="bg-obsidian p-3 rounded-xl rounded-tl-none border border-white/10">
+                                <Loader2 className="w-4 h-4 animate-spin text-electric" />
                             </div>
                         </div>
                     )}
                 </div>
 
-                <div className="p-4 border-t border-white/10 bg-zinc-900 rounded-b-2xl">
+                <div className="p-4 border-t border-white/10 bg-obsidian rounded-b-2xl">
                     <div className="relative">
                         <input
                             type="text"
@@ -136,12 +136,12 @@ export default function ResumePage() {
                             onChange={(e) => setInputText(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                             placeholder="Paste a bullet point to improve..."
-                            className="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 pr-10 transition-colors"
+                            className="w-full bg-night border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-electric pr-10 transition-colors"
                         />
                         <button
                             onClick={handleSendMessage}
                             disabled={!inputText.trim() || loadingChat}
-                            className="absolute right-2 top-2 p-1.5 rounded-lg bg-zinc-800 hover:bg-purple-600 text-gray-400 hover:text-white transition disabled:opacity-50 disabled:hover:bg-zinc-800"
+                            className="absolute right-2 top-2 p-1.5 rounded-lg bg-obsidian hover:bg-electric text-gray-400 hover:text-white transition disabled:opacity-50 disabled:hover:bg-obsidian"
                         >
                             <Send className="w-4 h-4" />
                         </button>
