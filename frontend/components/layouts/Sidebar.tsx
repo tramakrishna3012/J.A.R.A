@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 
@@ -10,6 +10,7 @@ const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
     { href: "/dashboard/jobs", icon: Briefcase, label: "My Jobs" },
     { href: "/dashboard/mailbox", icon: Mail, label: "Mailbox" },
+    { href: "/dashboard/outreach", icon: Users, label: "Outreach" },
     { href: "/dashboard/resume", icon: FileText, label: "Resume AI" },
     { href: "/dashboard/settings", icon: Settings, label: "Settings" },
 ];
