@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Any
 from app.api import deps
-from app.db.supabase import supabase
+from app.db.supabase_client import supabase
 
 router = APIRouter()
 

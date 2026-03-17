@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import Header, HTTPException, status, Depends
-from app.db.supabase import supabase
+from app.db.supabase_client import supabase
 
 async def get_current_user(authorization: Annotated[str | None, Header()] = None):
     """

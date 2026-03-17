@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Any, List
 from app.api import deps
-from app.db.supabase import supabase
+from app.db.supabase_client import supabase
 from app.services.bulk_import import bulk_import_service
 from app.services.ai_engine import ai_engine
 from fastapi import UploadFile, File, Body

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from typing import Any
 from app.api import deps
-from app.db.supabase import supabase
+from app.db.supabase_client import supabase
 from app.services.parser import parser
 from app.services.ai_engine import ai_engine
 from pydantic import BaseModel
