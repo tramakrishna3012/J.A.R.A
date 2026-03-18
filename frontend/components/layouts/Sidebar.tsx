@@ -6,6 +6,7 @@ import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home, Use
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
@@ -20,6 +21,21 @@ const navItems = [
 export function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
+    const [fullName, setFullName] = useState<string>("Loading...");
+    const [email, setEmail] = useState<string>("");
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setFullName(user.user_metadata?.full_name || "User");
+                setEmail(user.email || "");
+            } else {
+                setFullName("Guest");
+            }
+        };
+        fetchUser();
+    }, []);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -58,14 +74,26 @@ export function Sidebar() {
                             </Link>
                         );
                     })}
+
+                    <div className="my-4 border-t border-white/5 mx-6"></div>
+
+                    <Link
+                        href="/"
+                        className="w-full flex items-center px-6 py-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white text-gray-400"
+                    >
+                        <Home className="w-5 h-5 mr-3 shrink-0" />
+                        Back to Website
+                    </Link>
                 </nav>
 
                 {/* User Profile */}
                 <div className="p-4 border-t border-white/5 shrink-0">
                     <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors" onClick={handleSignOut}>
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 shrink-0"></div>
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 shrink-0 flex items-center justify-center text-white font-bold text-xs uppercase shadow-glow">
+                            {fullName.charAt(0)}
+                        </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white truncate">Alex Designer</p>
+                            <p className="text-sm font-medium text-white truncate">{fullName}</p>
                             <p className="text-xs text-gray-500 truncate">Log out</p>
                         </div>
                         <LogOut className="w-4 h-4 text-gray-500 shrink-0" />
@@ -92,14 +120,14 @@ export function Sidebar() {
                     );
                 })}
                 <Link
-                    href="/dashboard/settings"
+                    href="/"
                     className={cn(
                         "flex flex-col items-center gap-1 transition-colors px-3 py-1 rounded-lg",
-                        pathname === "/dashboard/settings" ? "text-primary-400 bg-white/5" : "text-gray-500 hover:text-gray-300"
+                        pathname === "/" ? "text-primary-400 bg-white/5" : "text-gray-500 hover:text-gray-300"
                     )}
                 >
-                    <Settings className="w-5 h-5" />
-                    <span className="text-[10px] font-medium">Settings</span>
+                    <Home className="w-5 h-5" />
+                    <span className="text-[10px] font-medium">Home</span>
                 </Link>
             </div>
         </>

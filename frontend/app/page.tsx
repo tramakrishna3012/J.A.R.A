@@ -485,7 +485,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                   <span className="font-heading font-semibold text-white">J.A.R.A</span>
-                  <span className="text-gray-600 text-sm">© 2024</span>
+                  <span className="text-gray-600 text-sm">© {new Date().getFullYear()}</span>
               </div>
               <div className="flex items-center gap-6 text-sm text-gray-500">
                   <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
