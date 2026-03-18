@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home, Users } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home, Users, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
+import Image from "next/image";
 
 const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
     { href: "/dashboard/jobs", icon: Briefcase, label: "My Jobs" },
+    { href: "/dashboard/agent", icon: Bot, label: "Workstation" },
     { href: "/dashboard/mailbox", icon: Mail, label: "Mailbox" },
     { href: "/dashboard/outreach", icon: Users, label: "Outreach" },
     { href: "/dashboard/resume", icon: FileText, label: "Resume AI" },
@@ -28,15 +30,15 @@ export function Sidebar() {
     return (
         <>
             {/* Desktop Sidebar */}
-            <aside className="hidden md:flex w-64 bg-obsidian border-r border-white/10 flex-col h-screen fixed left-0 top-0 z-50">
-                <div className="p-6 flex items-center gap-3">
-                    <div className="relative w-8 h-8 shrink-0">
-                        <img src="/logo.png" alt="J.A.R.A" className="object-contain w-full h-full" />
-                    </div>
-                    <span className="text-xl font-bold bg-gradient-to-r from-electric to-neon bg-clip-text text-transparent truncate tracking-wider">J.A.R.A</span>
+            <aside className="w-64 h-screen glass-sidebar flex flex-col fixed md:relative z-20 hidden md:flex shrink-0">
+                {/* Logo */}
+                <div className="h-16 flex items-center px-6 border-b border-white/5 shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold font-heading mr-3">J</div>
+                    <span className="font-heading font-bold text-xl text-white tracking-tight">J.A.R.A</span>
                 </div>
 
-                <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
+                {/* Navigation */}
+                <nav className="flex-1 py-6 space-y-1 overflow-y-auto">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
@@ -44,40 +46,35 @@ export function Sidebar() {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium",
-                                    isActive ? "bg-electric text-white shadow-lg shadow-electric/20" : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                                    "w-full flex items-center px-6 py-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white",
+                                    isActive ? "active-nav bg-white/5 text-white" : "text-gray-400"
                                 )}
                             >
-                                <item.icon className="w-5 h-5 shrink-0" />
+                                <item.icon className="w-5 h-5 mr-3 shrink-0" />
                                 {item.label}
+                                {item.label === 'Mailbox' && (
+                                    <span className="ml-auto bg-primary-500/20 text-primary-400 py-0.5 px-2 rounded-full text-xs">4</span>
+                                )}
                             </Link>
                         );
                     })}
                 </nav>
 
-                <div className="px-4 pb-2">
-                    <Link
-                        href="/"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium text-gray-400 hover:bg-white/5 hover:text-white border border-white/5"
-                    >
-                        <Home className="w-5 h-5 shrink-0" />
-                        Back to Website
-                    </Link>
-                </div>
-
-                <div className="p-4 border-t border-white/10">
-                    <button
-                        onClick={handleSignOut}
-                        className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-400 hover:bg-red-500/10 transition text-sm font-medium"
-                    >
-                        <LogOut className="w-5 h-5 shrink-0" />
-                        Sign Out
-                    </button>
+                {/* User Profile */}
+                <div className="p-4 border-t border-white/5 shrink-0">
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors" onClick={handleSignOut}>
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 shrink-0"></div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-white truncate">Alex Designer</p>
+                            <p className="text-xs text-gray-500 truncate">Log out</p>
+                        </div>
+                        <LogOut className="w-4 h-4 text-gray-500 shrink-0" />
+                    </div>
                 </div>
             </aside>
 
             {/* Mobile Bottom Navigation */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-obsidian border-t border-white/10 z-50 flex justify-between px-6 py-3 safe-area-bottom">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-white/5 z-50 flex justify-around px-2 py-3 safe-area-bottom">
                 {navItems.slice(0, 4).map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -85,11 +82,11 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "flex flex-col items-center gap-1 transition-colors",
-                                isActive ? "text-electric" : "text-slate-500 hover:text-slate-300"
+                                "flex flex-col items-center gap-1 transition-colors px-3 py-1 rounded-lg",
+                                isActive ? "text-primary-400 bg-white/5" : "text-gray-500 hover:text-gray-300"
                             )}
                         >
-                            <item.icon className="w-6 h-6" />
+                            <item.icon className="w-5 h-5" />
                             <span className="text-[10px] font-medium">{item.label}</span>
                         </Link>
                     );
@@ -97,11 +94,11 @@ export function Sidebar() {
                 <Link
                     href="/dashboard/settings"
                     className={cn(
-                        "flex flex-col items-center gap-1 transition-colors",
-                        pathname === "/dashboard/settings" ? "text-electric" : "text-slate-500 hover:text-slate-300"
+                        "flex flex-col items-center gap-1 transition-colors px-3 py-1 rounded-lg",
+                        pathname === "/dashboard/settings" ? "text-primary-400 bg-white/5" : "text-gray-500 hover:text-gray-300"
                     )}
                 >
-                    <Settings className="w-6 h-6" />
+                    <Settings className="w-5 h-5" />
                     <span className="text-[10px] font-medium">Settings</span>
                 </Link>
             </div>

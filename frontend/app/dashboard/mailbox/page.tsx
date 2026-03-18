@@ -1,21 +1,38 @@
 "use client";
 
-import { Mail, Send, PenTool, RefreshCw, Lock, Link as LinkIcon, AlertCircle } from "lucide-react";
+import { Mail, PenTool, RefreshCw, Lock } from "lucide-react";
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 
+interface Email {
+    id: string;
+    category: string;
+    subject: string;
+    date: string;
+    from: string;
+    snippet: string;
+    body: string;
+}
+
+interface UserSession {
+    user?: {
+        email?: string;
+    };
+    provider_token?: string;
+}
+
 export default function MailboxPage() {
     const [connected, setConnected] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [emails, setEmails] = useState<any[]>([]);
-    const [selectedEmail, setSelectedEmail] = useState<any | null>(null);
+    const [emails, setEmails] = useState<Email[]>([]);
+    const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
     const [activeFolder, setActiveFolder] = useState("Inbox");
     const [viewMode, setViewMode] = useState<"list" | "detail" | "compose">("list");
     const [initializing, setInitializing] = useState(true);
 
     // Credentials
-    const [creds, setCreds] = useState({ email: "", password: "" });
+    const [, setCreds] = useState({ email: "", password: "" });
 
     // Filtered Emails
     const filteredEmails = emails.filter(email => {
@@ -25,30 +42,15 @@ export default function MailboxPage() {
         return true;
     });
 
-    const handleConnect = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            const res = await api.post("/inbox/fetch", creds);
-            setEmails(res.data);
-            setConnected(true);
-        } catch (err: any) {
-            console.error("Connection Error", err);
-            alert("Connection failed. Check console.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     // Persistent Session Check
     useEffect(() => {
         const initSession = async () => {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
-                if (session) await processSession(session);
+                if (session) await processSession(session as UserSession);
 
                 supabase.auth.onAuthStateChange((_event, session) => {
-                    if (session) processSession(session);
+                    if (session) processSession(session as UserSession);
                 });
             } catch (err) {
                 console.error("Session check failed", err);
@@ -59,9 +61,9 @@ export default function MailboxPage() {
         initSession();
     }, []);
 
-    const processSession = async (session: any) => {
+    const processSession = async (session: UserSession) => {
         if (session?.user?.email) {
-            setCreds(prev => ({ ...prev, email: session.user.email }));
+            setCreds(prev => ({ ...prev, email: session.user?.email || "" }));
 
             // Auto-connect if we have a token (debounce check would be better but this is fine for now)
             if (session.provider_token) {
@@ -82,7 +84,6 @@ export default function MailboxPage() {
             }
         }
     };
-
 
 
     return (
@@ -170,7 +171,7 @@ export default function MailboxPage() {
                         <div className="divide-y divide-white/5">
                             {filteredEmails.length === 0 ? (
                                 <div className="p-8 text-center text-gray-500">No emails in {activeFolder}</div>
-                            ) : filteredEmails.map((email: any) => (
+                            ) : filteredEmails.map((email: Email) => (
                                 <div
                                     key={email.id}
                                     onClick={() => { setSelectedEmail(email); setViewMode("detail"); }}

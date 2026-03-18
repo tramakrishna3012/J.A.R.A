@@ -17,7 +17,7 @@ export default function TermsOfService() {
                 <div className="space-y-6 text-gray-300 leading-relaxed">
                     <section>
                         <h2 className="text-2xl font-semibold text-white mb-2">1. Acceptance of Terms</h2>
-                        <p>By accessing and using J.A.R.A ("the Application"), you accept and agree to be bound by the terms and provision of this agreement.</p>
+                        <p>By accessing and using J.A.R.A (&quot;the Application&quot;), you accept and agree to be bound by the terms and provision of this agreement.</p>
                     </section>
 
                     <section>

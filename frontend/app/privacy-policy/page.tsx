@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
                 <div className="space-y-6 text-gray-300 leading-relaxed">
                     <section>
                         <h2 className="text-2xl font-semibold text-white mb-2">1. Introduction</h2>
-                        <p>Welcome to J.A.R.A ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and your rights in relation to it.</p>
+                        <p>Welcome to J.A.R.A (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and your rights in relation to it.</p>
                     </section>
 
                     <section>
@@ -31,10 +31,10 @@ export default function PrivacyPolicy() {
 
                     <section>
                         <h2 className="text-2xl font-semibold text-white mb-2">3. How We Use Google Data</h2>
-                        <p>J.A.R.A's use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" className="text-blue-400 hover:underline">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+                        <p>J.A.R.A&apos;s use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" className="text-blue-400 hover:underline">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
                         <p className="mt-2">Specifically, we use your Gmail data only to:</p>
                         <ul className="list-disc pl-5 space-y-1 mt-1">
-                            <li>Scan for job-related keywords (e.g., "Application Received", "Interview").</li>
+                            <li>Scan for job-related keywords (e.g., &quot;Application Received&quot;, &quot;Interview&quot;).</li>
                             <li> categorize your job applications automatically on your dashboard.</li>
                         </ul>
                         <p className="mt-2">We <strong>do not</strong> sell, share, or use your Google data for advertising purposes.</p>

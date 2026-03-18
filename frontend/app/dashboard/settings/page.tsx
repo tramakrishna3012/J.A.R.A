@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { User, Mail, LogOut, ArrowLeft } from "lucide-react";
+import { User as UserIcon, Mail, LogOut, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import type { User } from "@supabase/supabase-js";
 
 export default function SettingsPage() {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -40,7 +41,7 @@ export default function SettingsPage() {
                 {/* Profile Card */}
                 <div className="p-6 rounded-2xl border border-white/10 bg-obsidian/50 shadow-xl shadow-black/50">
                     <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <User className="w-5 h-5 text-electric" />
+                        <UserIcon className="w-5 h-5 text-electric" />
                         Profile
                     </h2>
 
