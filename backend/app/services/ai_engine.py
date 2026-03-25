@@ -13,50 +13,74 @@ class AiEngine:
             try:
                 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
                 self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+import os
+
+class AiEngine:
+    def __init__(self):
+        self.model_name = "distilgpt2"
+        self.generator = None
+        self.tokenizer = None
+        # Lazy loading to avoid startup slowness
+    
+    def _load_model(self):
+        if not self.generator:
+            print("Loading AI Model (this may take a moment)...")
+            try:
+                from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
+                self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
                 self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
                 self.generator = pipeline('text-generation', model=self.model, tokenizer=self.tokenizer)
             except Exception as e:
                 print(f"Failed to load AI model: {e}")
                 self.generator = None
 
-    def improve_bullet_point(self, text: str) -> str:
+    def improve_bullet_point(self, text: str, target_skills: list = None) -> str:
         """
-        Rewrites a resume bullet point to be more professional.
-        Uses Rule-based fallback if AI fails or is too slow.
+        Resume Optimization Agent: Rewrites a resume bullet point to be more professional
+        and aligns it with target skills from a Job Description.
         """
-        # Rule-based enhancements (Faster & Reliable for free tier)
         if not text:
             return ""
 
         improved = text
-        action_verbs = ["Spearheaded", "Orchestrated", "Designed", "Executed", "Optimized"]
-        
-        # Simple heuristic: If it doesn't start with an action verb, try to suggest one.
-        # But for now, let's try the LLM if loaded, else basic string manip
-        
-        try:
-             # self._load_model() # Uncomment if we have enough RAM
-             # For 512MB RAM free tier, stick to rules or external API
-             pass 
-        except:
-             pass
+        if target_skills:
+            # Rule-based injection / modification for ATS alignment
+            for skill in target_skills[:2]: # Try to weave in top 2 skills if missing
+                if skill.lower() not in improved.lower():
+                    improved += f" utilizing {skill}"
 
         # "Smart" Rule-based Rewrite
         if "responsible for" in improved.lower():
-            improved = improved.replace("Responsible for", "Orchestrated the")
+            improved = improved.replace("responsible for", "Orchestrated the").replace("Responsible for", "Orchestrated the")
         if "helped" in improved.lower():
-            improved = improved.replace("Helped", "Collaborated on")
-        
-        return f"{improved} (Action-Oriented)"
+            improved = improved.replace("helped", "Collaborated on").replace("Helped", "Collaborated on")
+            
+        return f"{improved.strip()} (Action-Oriented)"
 
     def extract_job_info(self, text: str) -> dict:
         """
-        Extracts Company, Role, and Requirements from raw text (stub).
+        Job Analysis Agent: Extracts Company, Role, and Requirements from raw JD text.
         """
+        # In a production AI setting this would be an LLM structured output.
+        # Fallback heuristic extraction:
+        lower_text = text.lower()
+        company = "Detected Company"
+        role = "Detected Role"
+        
+        # Simple extraction heuristics based on common structures
+        if "software engineer" in lower_text or "developer" in lower_text:
+             role = "Software Engineer"
+             
+        found_skills = []
+        tech_keywords = ["python", "react", "typescript", "aws", "docker", "javascript", "fastapi"]
+        for tech in tech_keywords:
+             if tech in lower_text:
+                 found_skills.append(tech.capitalize())
+
         return {
-            "company": "Detected Company",
-            "role": "Detected Role",
-            "requirements": ["Python", "React"]
+            "company": company,
+            "role": role,
+            "requirements": found_skills if found_skills else ["Python", "React"]
         }
 
     def map_resume_to_fields(self, form_structure: list, resume_json: dict) -> dict:
@@ -152,5 +176,42 @@ Best regards,
         # we would pass variables to an LLM here for more variance and tone matching.
         # For reliability and speed in low-resource environments, the template is returned.
         return template
+
+    def generate_referral_draft(self, company: str, role: str, connection_name: str) -> str:
+        """
+        Referral Agent: Drafts a highly professional cold referral/connection request.
+        Max 300 chars for LinkedIn.
+        """
+        conn_first_name = connection_name.split()[0] if connection_name else "there"
+        draft = (
+            f"Hi {conn_first_name},\n\n"
+            f"I see you work at {company} and I'm a big fan of the engineering culture there. "
+            f"I'm interested in the {role} position and would love to ask you a quick question about your experience. "
+            f"Would you be open to connecting?\n\nBest"
+        )
+        return draft
+
+    def generate_application_plan(self, job_metadata: dict) -> list:
+        """
+        Application Planner Agent & Decision Engine:
+        Determines the state machine pipeline for a specific job application.
+        """
+        steps = []
+        is_referral_likely = bool(job_metadata.get('has_connections', False))
+        
+        steps.append({"step": 1, "action": "analyze_job_description", "status": "pending"})
+        steps.append({"step": 2, "action": "optimize_master_resume", "status": "pending"})
+        
+        if is_referral_likely:
+             steps.append({"step": 3, "action": "draft_referral_request", "status": "pending"})
+             steps.append({"step": 4, "action": "wait_for_user_approval", "status": "blocking_on_user"})
+             steps.append({"step": 5, "action": "send_referral_message", "status": "pending"})
+        else:
+             steps.append({"step": 3, "action": "wait_for_user_approval", "status": "blocking_on_user"})
+             steps.append({"step": 4, "action": "trigger_n8n_browser_apply", "status": "pending"})
+             
+        steps.append({"step": (6 if is_referral_likely else 5), "action": "track_status_in_db", "status": "pending"})
+        
+        return steps
 
 ai_engine = AiEngine()
