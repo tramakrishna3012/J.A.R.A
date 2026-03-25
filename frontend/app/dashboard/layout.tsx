@@ -14,6 +14,7 @@ export default function DashboardLayout({
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [notificationsOpen, setNotificationsOpen] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(3);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -79,7 +80,7 @@ export default function DashboardLayout({
                                 className="p-2 text-gray-400 hover:text-white transition-colors relative focus:outline-none"
                             >
                                 <Bell className="w-5 h-5" />
-                                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-background-900"></span>
+                                {unreadCount > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-background-900"></span>}
                             </button>
 
                             {/* Notifications Dropdown */}
@@ -89,7 +90,7 @@ export default function DashboardLayout({
                                     <div className="absolute right-0 mt-2 w-80 glass-panel border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-right">
                                         <div className="px-4 py-3 border-b border-white/5 bg-background-900/50 flex items-center justify-between">
                                             <h3 className="font-semibold text-white text-sm">Notifications</h3>
-                                            <span className="text-xs text-primary-400 cursor-pointer hover:underline" onClick={() => setNotificationsOpen(false)}>Mark all as read</span>
+                                            <span className="text-xs text-primary-400 cursor-pointer hover:underline" onClick={() => { setUnreadCount(0); setNotificationsOpen(false); }}>Mark all as read</span>
                                         </div>
                                         <div className="max-h-[300px] overflow-y-auto">
                                             {notifications.map((notif) => (
@@ -106,7 +107,7 @@ export default function DashboardLayout({
                                             ))}
                                         </div>
                                         <div className="px-4 py-2 border-t border-white/5 bg-background-900/50 text-center">
-                                            <button className="text-xs text-gray-400 hover:text-white transition-colors">View All Activity</button>
+                                            <button onClick={() => { setNotificationsOpen(false); router.push("/dashboard"); }} className="text-xs text-gray-400 hover:text-white transition-colors w-full">View All Activity</button>
                                         </div>
                                     </div>
                                 </>
