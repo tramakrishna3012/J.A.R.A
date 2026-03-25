@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home, Users, Bot } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Mail, Home, Users, Bot, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
@@ -12,6 +12,7 @@ const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
     { href: "/dashboard/jobs", icon: Briefcase, label: "My Jobs" },
     { href: "/dashboard/agent", icon: Bot, label: "Workstation" },
+    { href: "/dashboard/chat", icon: MessageSquare, label: "AI Chat" },
     { href: "/dashboard/mailbox", icon: Mail, label: "Mailbox" },
     { href: "/dashboard/outreach", icon: Users, label: "Outreach" },
     { href: "/dashboard/resume", icon: FileText, label: "Resume AI" },

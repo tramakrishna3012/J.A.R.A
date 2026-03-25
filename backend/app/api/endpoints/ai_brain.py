@@ -31,6 +31,9 @@ class n8nCallback(BaseModel):
     status: str
     message: Optional[str] = None
 
+class ChatRequest(BaseModel):
+    message: str
+
 # --- Mock Background Tasks ---
 def process_job_analysis(data: JobIngestion):
     # In a real system, this would trigger the AI Engine, parse the URL,
@@ -121,3 +124,11 @@ async def update_status(payload: n8nCallback):
     """
     print(f"n8n reported status for Job {payload.job_id}: {payload.status}")
     return {"status": "acknowledged"}
+
+@router.post("/chat")
+async def chat_with_agent(request: ChatRequest):
+    """
+    General conversational endpoint to talk with the J.A.R.A AI Brain.
+    """
+    reply = ai_engine.generate_chat_response(request.message)
+    return {"reply": reply}

@@ -199,4 +199,18 @@ Best regards,
         
         return steps
 
+    def generate_chat_response(self, message: str) -> str:
+        """
+        Conversational agent interface for general queries.
+        """
+        lower_msg = message.lower()
+        if "resume" in lower_msg or "cv" in lower_msg:
+            return "I can help with your resume! Try pasting a bullet point and ask me to optimize it, or use the dedicated Resume AI section in the sidebar for full ATS analysis."
+        if "referral" in lower_msg or "connect" in lower_msg:
+            return "Referrals are my specialty. Tell me the company and the HR or connection's name, and I can draft a perfect 300-character LinkedIn outreach message for you."
+        if "job" in lower_msg or "apply" in lower_msg:
+            return "I am ready to manage your job applications across the board! Once you save a job, my planner will immediately analyze the JD and create an execution pipeline."
+            
+        return "I'm J.A.R.A, your autonomous agent. I'm currently monitoring your job application pipelines. Let me know if you want me to analyze a specific job description or rewrite a resume trait for you!"
+
 ai_engine = AiEngine()
