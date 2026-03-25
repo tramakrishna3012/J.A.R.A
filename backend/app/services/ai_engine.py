@@ -13,21 +13,6 @@ class AiEngine:
             try:
                 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
                 self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-import os
-
-class AiEngine:
-    def __init__(self):
-        self.model_name = "distilgpt2"
-        self.generator = None
-        self.tokenizer = None
-        # Lazy loading to avoid startup slowness
-    
-    def _load_model(self):
-        if not self.generator:
-            print("Loading AI Model (this may take a moment)...")
-            try:
-                from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
-                self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
                 self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
                 self.generator = pipeline('text-generation', model=self.model, tokenizer=self.tokenizer)
             except Exception as e:
