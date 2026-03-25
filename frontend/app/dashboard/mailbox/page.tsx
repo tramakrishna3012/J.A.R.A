@@ -65,22 +65,32 @@ export default function MailboxPage() {
         if (session?.user?.email) {
             setCreds(prev => ({ ...prev, email: session.user?.email || "" }));
 
-            // Auto-connect if we have a token (debounce check would be better but this is fine for now)
+            const isAlreadyConnected = localStorage.getItem(`gmail_connected_${session.user.email}`) === 'true';
+
+            if (isAlreadyConnected) {
+                setConnected(true);
+            }
+
             if (session.provider_token) {
+                // If we got a provider_token from OAuth, save it as connected in local storage
+                localStorage.setItem(`gmail_connected_${session.user.email}`, 'true');
                 try {
                     setLoading(true);
-                    // Ideally we call API here
+                    // Mock API call to fetch
                     const res = await api.post("/inbox/fetch", {
                         email: session.user.email,
                         oauth_token: session.provider_token
                     });
-                    setEmails(res.data);
+                    if (res.data) setEmails(res.data);
                     setConnected(true);
                 } catch (err) {
                     console.error("Auto-fetch error:", err);
                 } finally {
                     setLoading(false);
                 }
+            } else if (isAlreadyConnected && emails.length === 0) {
+                // If connected via local storage but no emails loaded, simulate loading empty/dummy data or leave empty
+                setConnected(true);
             }
         }
     };

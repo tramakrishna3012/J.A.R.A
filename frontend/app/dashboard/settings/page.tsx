@@ -2,20 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { User as UserIcon, Mail, LogOut, ArrowLeft, Loader2, Save } from "lucide-react";
+import { User as UserIcon, Mail, LogOut, Loader2, Save, KeyRound } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import type { User } from "@supabase/supabase-js";
 
 export default function SettingsPage() {
     const [user, setUser] = useState<User | null>(null);
     const [fullName, setFullName] = useState("");
-    const [isUpdating, setIsUpdating] = useState(false);
+    const [password, setPassword] = useState("");
+    const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+    const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
         const getUser = async () => {
-            const { data: { user }, error } = await supabase.auth.getUser();
+            const { data: { user } } = await supabase.auth.getUser();
             if (user) {
                 setUser(user);
                 setFullName(user.user_metadata?.full_name || "");
@@ -31,17 +32,36 @@ export default function SettingsPage() {
 
     const handleUpdateProfile = async () => {
         if (!fullName.trim()) return;
-        setIsUpdating(true);
+        setIsUpdatingProfile(true);
         const { error } = await supabase.auth.updateUser({
             data: { full_name: fullName.trim() }
         });
-        setIsUpdating(false);
+        setIsUpdatingProfile(false);
         
         if (error) {
             alert(error.message);
         } else {
             alert("Profile updated successfully!");
             window.location.reload(); // Reload to refresh Sidebar
+        }
+    };
+
+    const handleUpdatePassword = async () => {
+        if (!password.trim() || password.length < 6) {
+            alert("Password must be at least 6 characters.");
+            return;
+        }
+        setIsUpdatingPassword(true);
+        const { error } = await supabase.auth.updateUser({
+            password: password
+        });
+        setIsUpdatingPassword(false);
+
+        if (error) {
+            alert(error.message);
+        } else {
+            alert("Password updated successfully!");
+            setPassword("");
         }
     };
 
@@ -52,13 +72,9 @@ export default function SettingsPage() {
                     <h1 className="font-heading text-3xl font-bold text-white mb-2">Settings</h1>
                     <p className="text-gray-400">Manage your account preferences</p>
                 </div>
-                <Link href="/" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-                    <ArrowLeft className="w-4 h-4" />
-                    Back to Website
-                </Link>
             </header>
 
-            <div className="max-w-2xl space-y-6">
+            <div className="max-w-3xl space-y-6">
                 {/* Profile Card */}
                 <div className="p-6 rounded-2xl border border-white/5 glass-panel shadow-lg">
                     <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-white">
@@ -79,10 +95,10 @@ export default function SettingsPage() {
                                 />
                                 <button 
                                     onClick={handleUpdateProfile}
-                                    disabled={isUpdating || !fullName.trim() || fullName.trim() === user?.user_metadata?.full_name}
+                                    disabled={isUpdatingProfile || !fullName.trim() || fullName.trim() === user?.user_metadata?.full_name}
                                     className="px-6 py-3 bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white rounded-xl font-medium transition-colors shadow-glow flex items-center justify-center gap-2"
                                 >
-                                    {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                    {isUpdatingProfile ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                                     Save
                                 </button>
                             </div>
@@ -102,6 +118,36 @@ export default function SettingsPage() {
                                 {user?.id || "Loading..."}
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Password Card */}
+                <div className="p-6 rounded-2xl border border-white/5 glass-panel shadow-lg">
+                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-white">
+                        <KeyRound className="w-5 h-5 text-accent-500" />
+                        Security
+                    </h2>
+                    
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium text-gray-400">Change Password</label>
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                            <input 
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="flex-1 px-4 py-3 bg-background-900 rounded-xl border border-white/10 text-white focus:outline-none focus:border-accent-500 transition-colors"
+                                placeholder="Enter new password"
+                            />
+                            <button 
+                                onClick={handleUpdatePassword}
+                                disabled={isUpdatingPassword || password.length < 6}
+                                className="px-6 py-3 bg-accent-600 hover:bg-accent-500 disabled:opacity-50 text-white rounded-xl font-medium transition-colors shadow-glow flex items-center justify-center gap-2"
+                            >
+                                {isUpdatingPassword ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                Update Password
+                            </button>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters long.</p>
                     </div>
                 </div>
 
